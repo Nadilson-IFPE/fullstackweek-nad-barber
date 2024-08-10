@@ -39,3 +39,6 @@ next-env.d.ts
 # lh
 .lh
 /.lh
+
+# postgres
+.postgres-data
