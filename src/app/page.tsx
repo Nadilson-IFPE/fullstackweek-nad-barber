@@ -1,7 +1,6 @@
 import Header from "./_components/header"
 import { Button } from "./_components/ui/button"
 import Image from "next/image"
-import { db } from "./_lib/prisma"
 import BarbershopItem from "./_components/barbershop-item"
 import { quickSearchOptions } from "./_constants/search"
 import BookingItem from "./_components/booking-item"
@@ -12,15 +11,15 @@ import { authOptions } from "./_lib/auth"
 import { ptBR } from "date-fns/locale"
 import { format } from "date-fns"
 import { getConfirmedBookings } from "./_data/get-confirmed-bookings"
+import { getPopularBarbershops } from "./_data/get-popular-barbershops"
+import { getBarbershops } from "./_data/get-barbershops"
 
 export default async function Home() {
   const session = await getServerSession(authOptions)
-  const barbershops = await db.barbershop.findMany({})
-  const popularBarbershops = await db.barbershop.findMany({
-    orderBy: {
-      name: "desc",
-    },
-  })
+
+  const barbershops = await getBarbershops()
+
+  const popularBarbershops = await getPopularBarbershops()
 
   const confirmedBookings = await getConfirmedBookings()
 
